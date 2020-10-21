@@ -140,8 +140,7 @@ public class Game extends Canvas implements Runnable {
         }
 
         // if head stops moving, game over
-        if (head.getVelocity() == 0) {
-            gameOver = true;
+        if (gameOver) {
             g.setFont(new Font("ARIEL", 0, 50));
             g.drawString("GAME OVER", WIDTH / 2 - 150, HEIGHT / 2 - 30);
             g.setFont(new Font("ARIEL", 0, 25));

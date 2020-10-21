@@ -22,7 +22,6 @@ public class Head extends GameObject {
     private ID powerType;
     private boolean poweredUp;
     private int numTicks;
-    private boolean alive;
     private boolean invulnerable;
     
     public Head(int x, int y, Handler handler) {
@@ -30,7 +29,6 @@ public class Head extends GameObject {
         this.handler = handler;
         this.vel = 4;
         this.bodyNum = 0;
-        this.alive = true;
     }
     
     public Rectangle getBounds() {
@@ -74,7 +72,7 @@ public class Head extends GameObject {
                     velX = 0;
                     velY = 0;
                     vel = 0;
-                    alive = false;
+                    Game.gameOver = true;
                 }
             }
             
@@ -97,7 +95,7 @@ public class Head extends GameObject {
     }
     
     private void powerEffect(ID power) {
-        if (poweredUp && alive) {
+        if (poweredUp && !Game.gameOver) {
             switch(power) {
                 case SpeedPower:
                     // disable other power ups
@@ -183,14 +181,6 @@ public class Head extends GameObject {
 
     public void setPoweredUp(boolean poweredUp) {
         this.poweredUp = poweredUp;
-    }
-
-    public boolean isAlive() {
-        return alive;
-    }
-
-    public void setAlive(boolean alive) {
-        this.alive = alive;
     }
 
     public int getBodyNum() {

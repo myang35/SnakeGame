@@ -83,8 +83,6 @@ public class KeyInput extends KeyAdapter {
         
         Game.head = new Head(Game.WIDTH/2, Game.HEIGHT/2, handler);
         handler.addObject(Game.head);
-        
-        Game.head.setAlive(true);
 
         Game.food = new Food(r.nextInt(WIDTH-22), r.nextInt(HEIGHT-54), handler);
         handler.addObject(Game.food);
