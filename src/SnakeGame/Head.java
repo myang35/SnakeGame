@@ -63,6 +63,7 @@ public class Head extends GameObject {
             
             if (tempObject.getId() == ID.Food) {
                 if (getBounds().intersects(tempObject.getBounds())) {
+                    Game.points++;
                     bodyNum++;
                     handler.addObject(new Body(prevX.get(prevX.size()-7), prevY.get(prevY.size()-7), bodyNum, handler));
                 }
