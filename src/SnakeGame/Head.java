@@ -15,6 +15,7 @@ public class Head extends GameObject {
     private Random r = new Random();
     private Handler handler;
     private Heading heading;
+    private int size;
     private int vel;
     private LinkedList<Integer> prevX = new LinkedList<>();
     private LinkedList<Integer> prevY = new LinkedList<>();
@@ -23,21 +24,30 @@ public class Head extends GameObject {
     private boolean poweredUp;
     private int numTicks;
     private boolean invulnerable;
+    private int ticksSinceLastTurn;
+    private Heading pendingAction;
     
     public Head(int x, int y, Handler handler) {
         super(x, y, ID.Head);
         this.handler = handler;
+        this.size = 16;
         this.vel = 4;
         this.bodyNum = 0;
+        this.ticksSinceLastTurn = 0;
+        this.pendingAction = null;
     }
     
     public Rectangle getBounds() {
-        return new Rectangle(x, y, 16, 16);
+        return new Rectangle(x, y, size, size);
     }
 
     public void tick() {
         prevX.add(x);
         prevY.add(y);
+        
+        if (pendingAction != null && canTurn()) {
+            goDirection(pendingAction);
+        }
         
         x += velX;
         y += velY;
@@ -47,11 +57,116 @@ public class Head extends GameObject {
         
         collision();
         powerEffect(powerType);
+        
+        this.ticksSinceLastTurn++;
     }
     
     public void render(Graphics g) {
         g.setColor(Color.WHITE);
-        g.fillRect(x, y, 16, 16);
+        g.fillRect(x, y, size, size);
+    }
+    
+    public void goDirection(Heading heading) {
+        switch (heading) {
+            case NORTH:
+                goUp();
+                break;
+            case SOUTH:
+                goDown();
+                break;
+            case WEST:
+                goLeft();
+                break;
+            case EAST:
+                goRight();
+                break;
+        }
+    }
+    
+    public void goUp() {
+        if (heading == Heading.SOUTH) {
+            return;
+        }
+        
+        if (pendingAction == Heading.NORTH || (pendingAction == null && canTurn())) {
+            heading = Heading.NORTH;
+            velY = -vel;
+            velX = 0;
+            ticksSinceLastTurn = 0;
+            pendingAction = null;
+            System.out.println("pending NULL");
+            return;
+        }
+        
+        if (pendingAction == null && !canTurn() && heading != Heading.NORTH) {
+            pendingAction = Heading.NORTH;
+            System.out.println("pending North");
+            return;
+        }
+    }
+    
+    public void goDown() {
+        if (heading == Heading.NORTH) {
+            return;
+        }
+        
+        if (pendingAction == Heading.SOUTH || (pendingAction == null && canTurn())) {
+            heading = Heading.SOUTH;
+            velY = vel;
+            velX = 0;
+            ticksSinceLastTurn = 0;
+            pendingAction = null;
+            System.out.println("pending NULL");
+            return;
+        }
+        
+        if (pendingAction == null && !canTurn() && heading != Heading.SOUTH) {
+            pendingAction = Heading.SOUTH;
+            System.out.println("pending South");
+            return;
+        }
+    }
+    
+    public void goLeft() {
+        if (heading == Heading.EAST) {
+            return;
+        }
+        
+        if (pendingAction == Heading.WEST || (pendingAction == null && canTurn())) {
+            heading = Heading.WEST;
+            velX = -vel;
+            velY = 0;
+            ticksSinceLastTurn = 0;
+            pendingAction = null;
+            System.out.println("pending NULL");
+            return;
+        }
+        
+        if (pendingAction == null && !canTurn() && heading != Heading.WEST) {
+            pendingAction = Heading.WEST;
+            System.out.println("pending West");
+            return;
+        }
+    }
+    
+    public void goRight() {
+        if (heading == Heading.WEST) {
+            return;
+        }
+        
+        if (pendingAction == Heading.EAST || (pendingAction == null && canTurn())) {
+            heading = Heading.EAST;
+            velX = vel;
+            velY = 0;
+            ticksSinceLastTurn = 0;
+            pendingAction = null;
+            return;
+        }
+        
+        if (pendingAction == null && !canTurn() && heading != Heading.EAST) {
+            pendingAction = Heading.EAST;
+            return;
+        }
     }
     
     private void collision() {
@@ -132,15 +247,19 @@ public class Head extends GameObject {
     }
     
     private void disableSpeedPower() {
-        if (heading == Heading.NORTH) velY = -4;
-        if (heading == Heading.SOUTH) velY = 4;
-        if (heading == Heading.EAST) velX = 4;
-        if (heading == Heading.WEST) velX = -4;
         vel = 4;
+        if (heading == Heading.NORTH) velY = -vel;
+        if (heading == Heading.SOUTH) velY = vel;
+        if (heading == Heading.EAST) velX = vel;
+        if (heading == Heading.WEST) velX = -vel;
     }
     
     private void disableInvulnerablePower() {
         invulnerable = false;
+    }
+    
+    private boolean canTurn() {
+        return ticksSinceLastTurn * vel >= size;
     }
     
     public void setHeading(Heading heading) {
@@ -193,6 +312,10 @@ public class Head extends GameObject {
 
     public ID getPowerType() {
         return powerType;
+    }
+    
+    public int getTicksSinceLastTurn() {
+        return ticksSinceLastTurn;
     }
     
 }

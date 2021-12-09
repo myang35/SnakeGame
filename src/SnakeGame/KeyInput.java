@@ -36,33 +36,23 @@ public class KeyInput extends KeyAdapter {
                 Head headObject = (Head)tempObject;
                 int vel = headObject.getVelocity();
                 // key events for player 1
-                try {
-                    if (key == KeyEvent.VK_UP && headObject.getHeading() != Heading.SOUTH) {
-                        headObject.setHeading(Heading.NORTH);
-                        headObject.setVelY(-vel);
-                        headObject.setVelX(0);
-                        Thread.sleep(sleepTime);
+                switch (key) {
+                    case KeyEvent.VK_UP -> {
+                        System.out.println("UP");
+                        headObject.goUp();
                     }
-                    if (key == KeyEvent.VK_DOWN && headObject.getHeading() != Heading.NORTH) {
-                        headObject.setHeading(Heading.SOUTH);
-                        headObject.setVelY(vel);
-                        headObject.setVelX(0);
-                        Thread.sleep(sleepTime);
+                    case KeyEvent.VK_DOWN -> {
+                        System.out.println("DOWN");
+                        headObject.goDown();
                     }
-                    if (key == KeyEvent.VK_LEFT && headObject.getHeading() != Heading.EAST) {
-                        headObject.setHeading(Heading.WEST);
-                        headObject.setVelX(-vel);
-                        headObject.setVelY(0);
-                        Thread.sleep(sleepTime);
+                    case KeyEvent.VK_LEFT -> {
+                        System.out.println("LEFT");
+                        headObject.goLeft();
                     }
-                    if (key == KeyEvent.VK_RIGHT && headObject.getHeading() != Heading.WEST) {
-                        headObject.setHeading(Heading.EAST);
-                        headObject.setVelX(vel);
-                        headObject.setVelY(0);
-                        Thread.sleep(sleepTime);
+                    case KeyEvent.VK_RIGHT -> {
+                        System.out.println("RIGHT");
+                        headObject.goRight();
                     }
-                } catch (InterruptedException ie) {
-                    System.out.println(ie);
                 }
             }
         }
