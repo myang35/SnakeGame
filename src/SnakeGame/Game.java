@@ -35,7 +35,7 @@ public class Game extends Canvas implements Runnable {
     public static boolean gameOver;
 
     public Game() {
-        String scoresPath = System.getProperty("user.dir") + "\\src\\SnakeGame\\scores.txt";
+        String scoresPath = System.getProperty("user.dir") + ".\\scores.txt";
         scoresHandler = new ScoresHandler(new File(scoresPath));
 
         handler = new Handler();
@@ -127,7 +127,7 @@ public class Game extends Canvas implements Runnable {
 
         // show High Score
         try {
-            g.drawString("HighScore: " + scoresHandler.getHighScore().getPoints(), WIDTH - 200, 25);
+            g.drawString("HighScore: " + scoresHandler.getHighScore(), WIDTH - 200, 25);
         } catch (IllegalStateException e) {
         }
 

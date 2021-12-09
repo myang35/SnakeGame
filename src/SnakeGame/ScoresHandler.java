@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -22,7 +23,7 @@ import java.util.logging.Logger;
 public class ScoresHandler {
 
     private File file;
-    private ArrayList<Score> scores = new ArrayList<>();
+    private ArrayList<Integer> scores = new ArrayList<>();
 
     public ScoresHandler(File file) {
         this.file = file;
@@ -49,11 +50,7 @@ public class ScoresHandler {
                 // Get data
                 String scoreString = scanner.nextLine();
                 String[] scoreData = scoreString.split(",");
-
-                // Create Score
-                String name = scoreData[0];
-                int points = Integer.parseInt(scoreData[1]);
-                Score score = new Score(name, points);
+                int score = Integer.parseInt(scoreData[0]);
 
                 // Add Score to list
                 scores.add(score);
@@ -63,13 +60,10 @@ public class ScoresHandler {
         }
     }
 
-    public void addScore(Score newScore) {
-        try ( FileWriter fileWriter = new FileWriter(file)) {
+    public void addScore(int newScore) {
+        try ( FileWriter fileWriter = new FileWriter(file, true)) {
             // Write to file
-            for (Score score : scores) {
-                fileWriter.append(score.toWriteFormat() + "\n");
-            }
-            fileWriter.append(newScore.toWriteFormat());
+            fileWriter.append(newScore + "," + LocalDateTime.now().toString() + "\n");
 
             // Add Score to list
             scores.add(newScore);
@@ -77,20 +71,15 @@ public class ScoresHandler {
             Logger.getLogger(ScoresHandler.class.getName()).log(Level.SEVERE, null, e);
         }
     }
-
-    public void addScore(String name, int points) {
-        Score score = new Score(name, points);
-        addScore(score);
-    }
     
-    public Score getHighScore() throws IllegalStateException {
+    public int getHighScore() throws IllegalStateException {
         if (scores.isEmpty()) {
             throw new IllegalStateException("There are no saved scores.");
         }
         
-        Score highScore = scores.get(0);
+        int highScore = scores.get(0);
         for (int i = 1; i < scores.size(); i++) {
-            if (scores.get(i).getPoints() > highScore.getPoints()) {
+            if (scores.get(i) > highScore) {
                 highScore = scores.get(i);
             }
         }

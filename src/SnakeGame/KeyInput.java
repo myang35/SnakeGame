@@ -70,7 +70,7 @@ public class KeyInput extends KeyAdapter {
         if (key == KeyEvent.VK_ENTER) restart();
         if (key == KeyEvent.VK_ESCAPE) System.exit(1);
         if (key == KeyEvent.VK_P && !Game.gameOver) pause();
-        if (key == KeyEvent.VK_S && Game.gameOver) Game.scoresHandler.addScore("Marvin", Game.points);
+        if (key == KeyEvent.VK_S && Game.gameOver) Game.scoresHandler.addScore(Game.points);
         
     }
     
