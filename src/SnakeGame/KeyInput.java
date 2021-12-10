@@ -37,22 +37,22 @@ public class KeyInput extends KeyAdapter {
                 int vel = headObject.getVelocity();
                 // key events for player 1
                 switch (key) {
-                    case KeyEvent.VK_UP -> {
+                    case KeyEvent.VK_UP:
                         System.out.println("UP");
                         headObject.goUp();
-                    }
-                    case KeyEvent.VK_DOWN -> {
+                        break;
+                    case KeyEvent.VK_DOWN:
                         System.out.println("DOWN");
                         headObject.goDown();
-                    }
-                    case KeyEvent.VK_LEFT -> {
+                        break;
+                    case KeyEvent.VK_LEFT:
                         System.out.println("LEFT");
                         headObject.goLeft();
-                    }
-                    case KeyEvent.VK_RIGHT -> {
+                        break;
+                    case KeyEvent.VK_RIGHT:
                         System.out.println("RIGHT");
                         headObject.goRight();
-                    }
+                        break;
                 }
             }
         }
