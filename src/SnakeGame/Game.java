@@ -46,7 +46,7 @@ public class Game extends Canvas implements Runnable {
         head = new Head(WIDTH / 2, HEIGHT / 2, handler);
         handler.addObject(head);
 
-        food = new Food(r.nextInt(WIDTH - 22), r.nextInt(HEIGHT - 54), handler);
+        food = new Food(handler);
         handler.addObject(food);
 
         this.addKeyListener(new KeyInput(handler));
@@ -180,31 +180,6 @@ public class Game extends Canvas implements Runnable {
             return var = min;
         } else {
             return var;
-        }
-    }
-
-    private void createPowerUp() {
-        if (head.getVelX() == 0 && head.getVelY() == 0) {
-            numTicks = 0;
-        } else {
-            if (numTicks == 1000) {
-                PowerUp powerUp;
-                int randNum = r.nextInt(2);
-                switch (randNum) {
-                    case 0:
-                        powerUp = new SpeedPower(r.nextInt(WIDTH - 22), r.nextInt(HEIGHT - 54), handler);
-                        break;
-                    case 1:
-                        powerUp = new InvulnerablePower(r.nextInt(WIDTH - 22), r.nextInt(HEIGHT - 54), handler);
-                        break;
-                    default:
-                        System.out.println("Error: invalid random number (" + randNum + ")");
-                        powerUp = new SpeedPower(r.nextInt(WIDTH - 22), r.nextInt(HEIGHT - 54), handler);
-                }
-                handler.addObject(powerUp);
-                numTicks = 0;
-            }
-            numTicks++;
         }
     }
 

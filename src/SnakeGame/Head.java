@@ -52,8 +52,8 @@ public class Head extends GameObject {
         x += velX;
         y += velY;
         
-        x = Game.clamp(x, 0, Game.WIDTH - 22);
-        y = Game.clamp(y, 0, Game.HEIGHT - 54);
+        x = Game.clamp(x, 0, Game.WIDTH - this.size - 16);
+        y = Game.clamp(y, 0, Game.HEIGHT - this.size - 39);
         
         collision();
         powerEffect(powerType);
