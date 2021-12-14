@@ -34,7 +34,6 @@ public class KeyInput extends KeyAdapter {
             
             if (tempObject.getId() == ID.Head) {
                 Head headObject = (Head)tempObject;
-                int vel = headObject.getVelocity();
                 // key events for player 1
                 switch (key) {
                     case KeyEvent.VK_UP:

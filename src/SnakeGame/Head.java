@@ -165,7 +165,6 @@ public class Head extends GameObject {
         
         if (pendingAction == null && !canTurn() && heading != Heading.EAST) {
             pendingAction = Heading.EAST;
-            return;
         }
     }
     
